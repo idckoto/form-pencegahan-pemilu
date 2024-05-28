@@ -1,0 +1,131 @@
+@extends('layouts.opd.app')
+@section('content')
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <center>
+          <h1>List Bentuk Pencegahan</h1>
+         </center>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content-header">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card card-warning card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                        @if (Auth::user()->id_admin == '0' or Auth::user()->id_admin == '1') 
+                            <a href="/tambah-bentuk" class="btn btn-outline-primary btn-block"><i class="fa fa-plus"></i> Tambah Bentuk Pencegahan</a>
+                         @endif
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                          <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Bentuk Pencegahan</th>
+                            <th>Type Bentuk Pencegahan</th>
+                            <th>Aksi</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($bentuk as $no => $btk)
+                            <tr>
+                                <td>{{++$no}}</td>
+                                <td>{{$btk->bentuk}}</td>
+                                <td>{{$btk->type=='1'?'Tahapan & Non Tahapan':'Non Tahapan'}}</td>
+                                <td>
+                                
+                                    <div class="timeline-footer">
+                                        @php
+                                            $id=Crypt::encryptString($btk->id);
+                                        @endphp
+                                        @if (Auth::user()->id_admin == '0' or Auth::user()->id_admin == '1') 
+                                        <a href="/edit-bentuk/{{$id}}"class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                                        <button onClick="Delete(this.id)" class="btn btn-danger btn-sm" id="{{$btk->id}}"><i class="fas fa-trash"></i> Hapus</button>
+                                       @endif
+                                        <a href="/detail-bentuk"class="btn btn-info btn-sm"><i class="fas fa-check"></i> Detail</a>
+                                      
+                                      </div>
+                                     
+                                </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+@endsection
+@push('scripts')
+		<script type="text/javascript">
+  function Delete(id)
+{
+  var id = id;
+  var token = $("meta[name='csrf-token']").attr("content");
+   //console.log(id);
+   Swal.fire({
+    title: 'Yakin akan dihapus?',
+    text: "Data yang telah dihapus tidak bisa dikembalikan.",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then(function(result) {
+    // console.log(Swal.DismissReason);
+    if (result.dismiss) {
+      return true;
+    } else {
+
+      //ajax delete
+      jQuery.ajax({
+        url: "{{ url('/hapus-bentuk') }}",
+        data: 	{
+          "id": id,
+          "_token": token
+        },
+        type: 'DELETE',
+        success: function (response) {
+          if (response.status == "success") {
+            Swal.fire({
+              title: 'BERHASIL!',
+              text: 'DATA BERHASIL DIHAPUS!',
+              type: 'success',
+              timer: 1000,
+              showConfirmButton: false,
+              showCancelButton: false,
+              buttons: false,
+            }).then(function() {
+              location.reload();
+            });
+          }else{
+              Swal.fire({
+              title: 'GAGAL!',
+              text: 'DATA GAGAL DIHAPUS!',
+              type: 'error',
+              timer: 1000,
+              showConfirmButton: false,
+              showCancelButton: false,
+              buttons: false,
+            }).then(function() {
+              location.reload();
+            });
+          }
+        }
+      });
+    }
+  })
+}
+			</script>
+	@endpush
