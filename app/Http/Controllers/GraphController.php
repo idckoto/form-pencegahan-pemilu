@@ -75,7 +75,7 @@ class GraphController extends Controller
             $title = ' Seluruh Provinsi';
         } else if ($jabatan == 'Ketua atau Anggota Bawaslu Provinsi') {
             if ($user->Provinsi != null) {
-                dd('provinsi');
+                //dd('provinsi');
                 $provinsi = Provinsi::where('id', $user->Provinsi)->first();
                 $title = ' Kabupaten/Kota di Seluruh Provinsi ' . $provinsi->provinsi;
             } else {
