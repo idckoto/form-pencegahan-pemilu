@@ -30,7 +30,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return redirect('/login');
+    //return redirect('/login');
+    return redirect('/signin');
 });
 
 Route::get('/reload-captcha', [App\Http\Controllers\Auth\SigninSessionController::class, 'reloadCaptcha']);
