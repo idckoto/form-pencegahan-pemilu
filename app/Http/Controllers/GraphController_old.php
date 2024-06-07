@@ -25,7 +25,7 @@ class GraphController extends Controller
         //     }
         // });
         if (!$this->middleware('auth:sanctum')) {
-            return redirect('/login');
+            return redirect('/signin');
         }
     }
 
