@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class SigninSessionController extends Controller
@@ -35,13 +36,17 @@ class SigninSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy()
     {
-        Auth::guard('web')->logout();
+        Session::flush();
+        Auth::logout();
+        Session::invalidate();
+        Session::regenerateToken();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        //model sebelumnya
+        //Auth::guard('web')->logout();
+        //$request->session()->invalidate();
+        //$request->session()->regenerateToken();
 
         return redirect('/');
     }
