@@ -50,14 +50,22 @@
 
         <!-- capthcha --> 
         <div class="form-group mt-3 mb-3">
-            <div class="captcha">
-                <span>{!! captcha_img('flat') !!}</span>
-                <button type="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="captcha">
+                        <span>{!! captcha_img('flat') !!}</span>
+                        <button type="button" class="btn btn-default btn-md reload" id="reload">&#x21bb;</button>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" name="captcha" placeholder="Enter Captcha">
+                </div>
             </div>
+
         </div>
 
         <div class="from-group mt-3 mb-3">
-          <input class="form-control" type="text" name="captcha" placeholder="Enter Captcha">
+          
         </div>
 
         <div class="row">

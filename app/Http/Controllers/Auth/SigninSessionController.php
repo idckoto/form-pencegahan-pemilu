@@ -47,6 +47,6 @@ class SigninSessionController extends Controller
     }
 
     public function reloadCaptcha(){
-        return response()->json(['captcha'=>captcha_img('math')]);
+        return response()->json(['captcha'=>captcha_img('flat')]);
     }
 }
