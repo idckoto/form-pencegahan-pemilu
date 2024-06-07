@@ -33,6 +33,9 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('/reload-captcha', [App\Http\Controllers\Auth\SigninSessionController::class, 'reloadCaptcha']);
+
+
 Route::controller(ChangePasswordController::class)->group(function () {
     Route::post('/forgot/submit', 'submitForgot');
     Route::get('/forgot/change/{id}', 'submitChange');
