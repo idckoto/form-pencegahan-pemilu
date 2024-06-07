@@ -70,7 +70,7 @@
             @if(Auth::user()->id_admin==0)
                 <li class="nav-item {{ $open_menu == 'data_master' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file"></i>
+                        <i class="nav-icon fas fa-file text-warning"></i>
                         <p>
                             Data Master
                             <i class="fas fa-angle-right right"></i>
@@ -126,7 +126,7 @@
             {{--  @endcan  --}}
                 <li class="nav-item {{ $open_menu == 'input-laporan' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file text-warning"></i>
+                        <i class="nav-icon fas fa-edit text-warning"></i>
                         <p>
                             Form pencegahan
                             <i class="fas fa-angle-right right"></i>
