@@ -132,6 +132,7 @@ class GraphController extends Controller
             'dropdowns',
             'jabatan',
             'title',
+            'userProv',
             //'dataTahap',
             //'dataBentuk'
 
