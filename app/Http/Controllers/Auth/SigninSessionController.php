@@ -48,7 +48,7 @@ class SigninSessionController extends Controller
         //$request->session()->invalidate();
         //$request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/signin');
     }
 
     public function reloadCaptcha(){

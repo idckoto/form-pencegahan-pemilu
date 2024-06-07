@@ -15,7 +15,7 @@ class BentukController extends Controller
     public function __construct()
     {
         if (!$this->middleware('auth:sanctum')) {
-            return redirect('/login');
+            return redirect('/signin');
         }
     }
     /**
