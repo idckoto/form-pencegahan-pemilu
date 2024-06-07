@@ -40,6 +40,8 @@
     {{--  <link rel="stylesheet" href="{{ asset('blackend/plugins/summernote/summernote-bs4.min.css')}}">  --}}
     <!-- Sweetalert style -->
     <link rel="stylesheet" href="{{ asset('blackend/sweetalert/sweetalert2.min.css')}}">
+    <!-- jQuery -->
+    <script src="{{ asset('blackend/plugins/jquery/jquery.min.js')}}"></script>
 </head>
 
 <body>
@@ -74,8 +76,7 @@
     <!-- AdminLTE App -->
     {{--  <script src="{{ asset('blackend/dist/js/adminlte.js')}}"></script>
     <script src="{{ asset('blackend/dist/js/pages/dashboard.js')}}"></script>  --}}
-    <!-- jQuery -->
-    <script src="{{ asset('blackend/plugins/jquery/jquery.min.js')}}"></script>
+    
     {{--  <script src="{{ asset('blackend/plugins/jquery/jqueryx.min.js')}}"></script>  --}}
     <!-- Bootstrap 4 -->
     <script src="{{ asset('blackend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

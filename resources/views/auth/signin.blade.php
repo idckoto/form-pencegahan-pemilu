@@ -30,13 +30,14 @@
       @csrf
         <div class="input-group mb-3">
             
-          <input class="form-control" type="email" name="email" :value="old('email')" required autofocus>
+          <input class="form-control" type="email" name="email" :value="old('email')" placeholder="Username" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
           <input class="form-control" type="password" name="password" placeholder="Password"
           required autocomplete="current-password">
@@ -46,6 +47,19 @@
             </div>
           </div>
         </div>
+
+        <!-- capthcha --> 
+        <div class="form-group mt-3 mb-3">
+            <div class="captcha">
+                <span>{!! captcha_img('flat') !!}</span>
+                <button type="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
+            </div>
+        </div>
+
+        <div class="from-group mt-3 mb-3">
+          <input class="form-control" type="text" name="captcha" placeholder="Enter Captcha">
+        </div>
+
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
@@ -57,7 +71,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -111,5 +125,18 @@
   <!-- /.card -->
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('#reload').click(function(){
+            $.ajax({
+                type: 'GET',
+                url: 'reload-captcha',
+                success:function(data){
+                    $(".captcha span").html(data.captcha)
+                }
+            })
+        });
+    });
+</script>
 <!-- /.modal -->
 @endsection
