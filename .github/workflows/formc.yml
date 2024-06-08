@@ -1,0 +1,18 @@
+name: Deploy Form Pencegahan
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Deployment Form Pencegahan
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote
+        uses: fifsky/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          command: ./cicd.sh
