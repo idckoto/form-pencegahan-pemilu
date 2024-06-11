@@ -13,7 +13,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           user: ${{ secrets.SSH_USER }}
-          pass: ${{ secrets.SSH_PASSWORD }}
+          pass: ${{ secrets.PRIVATE_KEY }}
           port: 22
           command: ls -lah
           #command: ssh pusdatin@10.11.12.120 && cd /home/pusdatin/html/form-pencegahan-pemilu && git pull origin main
