@@ -15,5 +15,5 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           pass: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          command: ./cicd.sh
+          command: pwd
           #command: ssh pusdatin@10.11.12.120 && cd /home/pusdatin/html/form-pencegahan-pemilu && git pull origin main
