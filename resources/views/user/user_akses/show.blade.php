@@ -20,7 +20,7 @@
         <div class="col-5 text-center d-flex align-items-center justify-content-center">
           <div class="">
 
-            @if (Auth::user()->profile_photo_path!=null)
+        @if (Auth::user()->profile_photo_path!=null)
             <img src="{{ Storage::url('public/staff/'.Auth::user()->profile_photo_path.'') }}" class="img-thumbnail" />
 
         @else

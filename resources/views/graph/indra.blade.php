@@ -953,7 +953,7 @@ $(document).ready(function () {
     {
         Highcharts.chart('containerJenis', {
             chart: {
-                type: 'column'
+                type: 'bar'
             },
             title: {
                 text: '',
@@ -1027,48 +1027,35 @@ $(document).ready(function () {
     function chart_container_pencegahan(response)
     {
         Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
             title: {
                 text: '',
                 align: 'left'
             },
-
-            subtitle: {
-                //text: 'Data Sebaran Form Pencegahan'+ titleLabel,
-                align: 'left'
+            
+            xAxis: {
+                categories: response[0],
             },
 
             yAxis: {
+                min: 0,
                 title: {
-                    text: 'Jumlah Form'
-                }
-            },
-
-            xAxis: {
-                categories: response[0],
-                labels: {
-                    step: 0
+                    text: 'Jumlah'
                 }
             },
 
             legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
+                reversed: true
             },
 
             plotOptions: {
                 series: {
+                    stacking: 'normal',
                     dataLabels: {
                         enabled: true
                     },
-                    allowPointSelect: true,
-                    point: {
-                        events: {
-                            click: function() {
-                            window.open('https://formpencegahan.bawaslu.go.id/dashboard/detail/'+  this.category + '/'  + date_start + '/' + date_finish, '_blank');
-                            }
-                        }
-                    }
                 }
             },
 
@@ -1102,20 +1089,6 @@ $(document).ready(function () {
                 }
             ],
 
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
 
         });
     }

@@ -22,17 +22,21 @@
                         <a href="/input-form" class="btn btn-outline-primary btn-block"><i class="fa fa-plus"></i>
                         Tambah Form Pencegahan <b>
                          </b></a></h3>
+                         
                     </div>
+                    
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        UserID : {{ Auth::user()->id }} 
+                        <table id="example1" class="table table-small table-bordered table-striped" style="font: 12px Tahoma;">
                           <thead>
                           <tr>
                             <th>No</th>
                             <th>Nomor Form Pencegahan</th>
                             <th>Tahap</th>
                             <th>Nama Pelaksana</th>
-                            <th>Nomor Surat Perintah Tugas</th>
-                            <th>Aksi</th>
+                            <!--<th>Nomor Surat Perintah Tugas</th>-->
+                            <th>Nama Pemilihan</th>
+                            <th class="text-center">Aksi</th>
                           </tr>
                           </thead>
                           <tbody>
@@ -54,24 +58,24 @@
                                 @else
                                     {{-- Tampilkan pesan error atau nilai default --}}
                                 @endif</td>
-                                <td>{{$cegah->nspt}}</td>
+                                <td>{{$cegah->wp->nama_wp}}</td>
                                 <td class="project-actions text-right">
                                         @php
                                             $id=Crypt::encryptString($cegah->id);
                                         @endphp
-                                    <a class="btn btn-primary btn-sm" href="/cetak-form/{{$id}}">
+                                    <a class="btn btn-primary btn-xs" href="/cetak-form/{{$id}}">
                                         <i class="fas fa-folder">
                                         </i>
                                         View
                                     </a>
                                     @if ($cegah->stts=='0')
-                                        <a class="btn btn-warning btn-sm" href="/edit-pencegah/{{$id}}">
+                                        <a class="btn btn-warning btn-xs" href="/edit-pencegah/{{$id}}">
                                             <i class="fas fa-pencil-alt">
                                             </i>
                                             Edit
                                         </a>
-                                        <button onClick="Submit(this.id)" class="btn btn-info btn-sm" id="{{Crypt::encryptString($cegah->id)}}"><i class="fa fa-key"></i> Submit</button>
-                                        <button onClick="Delete(this.id)" class="btn btn-danger btn-sm" id="{{Crypt::encryptString($cegah->id)}}"><i class="fas fa-trash"></i> Hapus</button>
+                                        <button onClick="Submit(this.id)" class="btn btn-info btn-xs" id="{{Crypt::encryptString($cegah->id)}}"><i class="fa fa-key"></i> Submit</button>
+                                        <button onClick="Delete(this.id)" class="btn btn-danger btn-xs" id="{{Crypt::encryptString($cegah->id)}}"><i class="fas fa-trash"></i> Hapus</button>
                                     @endif
                                 </td>
                             </tr>

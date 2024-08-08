@@ -9,10 +9,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-
-        <li class="nav-item"><a href="/profil" class="nav-link"><i class="fas fa-user mr-2"></i>{{ Auth::user()->email }}</a></li>
-
-
+        <li class="nav-item"><a href="/profil" class="nav-link"><i class="fas fa-user mr-2"></i>{{ strtoupper(Auth::user()->name) }} - {{ strtoupper(Auth::user()->Jabatan) }}</a></li>
     </ul>
 </nav>

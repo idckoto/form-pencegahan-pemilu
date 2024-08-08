@@ -21,6 +21,9 @@ use App\Models\Kelurahan;
 use App\Models\Petuga;
 use App\Models\Wilayah;
 use App\Models\Jabatan;
+use App\Models\User;
+use App\Models\Twp;
+
 use Illuminate\Support\Facades\File;
 
 class InputformController extends Controller
@@ -100,6 +103,30 @@ foreach ($formcegahs as $formcegah) {
             $petugas = Petuga::get();
         }
 
+        $user = User::where('id', Auth::user()->id)->first();
+
+        $id_kec = $user->Kecamatan;
+        $id_kabkota = $user->Kabkota;
+        $id_provinsi = $user->Provinsi;
+
+        //dd($id_provinsi);
+
+        if(Auth::user()->Jabatan=="Bawaslu Kecamatan") {
+            $twp = Twp::where('kabkot', '=', Auth::user()->Provinsi.'00')
+                    ->orWhere('kabkot', '=' , $user->KabKota)
+                    ->get();
+        } else if(Auth::user()->Jabatan=="Ketua atau Anggota Bawaslu Kabupaten/Kota") {
+            $twp = Twp::where('kdpro', Auth::user()->Provinsi)
+                        ->where('kp_id',1)
+                        ->get();
+        } else if(Auth::user()->Jabatan=="Ketua atau Anggota Bawaslu Provinsi") {
+            $twp = Twp::where('kdpro', Auth::user()->Provinsi)
+                        ->orWhere('kp_id',1)
+                        ->get();            
+        } else if(Auth::user()->Jabatan=="Sekretariat Bawaslu Provinsi") {
+            
+        }
+
         // dd($petugas);
         $wilayah = Wilayah::get();
         $tahapan = Tahapan::orderByDesc('id')->get();
@@ -114,20 +141,23 @@ foreach ($formcegahs as $formcegah) {
             $provinsi = Provinsi::where('id', Auth::user()->Provinsi)->first();
             $kabupaten = Kabupaten::where('id', Auth::user()->KabKota)->first();
             $kecamatan = Kecamatan::where('id', Auth::user()->Kecamatan)->first();
+            
         }elseif(isset(Auth::user()->KabKota)){
             $provinsi = Provinsi::where('id', Auth::user()->Provinsi)->first();
             $kabupaten = Kabupaten::where('id', Auth::user()->KabKota)->first();
             $kecamatan = null;
+
         }elseif(isset(Auth::user()->Provinsi)){
             $provinsi = Provinsi::where('id', Auth::user()->Provinsi)->first();
             $kabupaten = null;
             $kecamatan = null;
+
         }else{
             $provinsi = null;
             $kabupaten = null;
             $kecamatan = null;
         }
-        return view('opd.input_lap.inputform', compact('bentuknon','tahapan','tahapannon','bentuk','tujuan','sasaran','petugas','wilayah','jabatan','jenis','user','provinsi','kabupaten','kecamatan'));
+        return view('opd.input_lap.inputform', compact('twp', 'bentuknon','tahapan','tahapannon','bentuk','tujuan','sasaran','petugas','wilayah','jabatan','jenis','user','provinsi','kabupaten','kecamatan'));
     }
 
 
@@ -144,6 +174,7 @@ foreach ($formcegahs as $formcegah) {
             'tempat'     => 'required',
             'uraian'     => 'required',
             'tindaklanjut' => 'required',
+            'wp_id' => 'required',
             // <!-- 'files'      => 'required|mimes:doc,docx,pdf,jpg,jpeg,png|max:2048', -->
             'files'      => 'required',
             'files.*'    => 'required|mimes:doc,docx,pdf,jpg,jpeg,png|max:3048',
@@ -209,6 +240,7 @@ foreach ($formcegahs as $formcegah) {
         $formcegah->bukti = json_encode($files);
         $formcegah->repo = $request->repo;
         $formcegah->stts = '0';
+        $formcegah->wp_id = $request->wp_id;
         $formcegah->save();
         return redirect('/list-form')->with('status','Berhasil Tersimpan');
     }

@@ -31,4 +31,10 @@ class Formcegah extends Model
             ]
         ];
     }
+
+    public function wp()
+    {
+        return $this->belongsTo(Twp::class, 'wp_id', 'id');
+    }
+
 }

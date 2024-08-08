@@ -24,7 +24,7 @@
             <img src="{{ Storage::url('public/staff/'.Auth::user()->profile_photo_path.'') }}" class="img-thumbnail" />
 
         @else
-            <img src="{{ asset('blackend/dist/img/avatar5.png') }}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{ asset('blackend/dist/img/avatar4.png') }}" class="img-circle elevation-2" alt="User Image">
         @endif
         
 
