@@ -14,6 +14,9 @@
   border-width: 1px;
 }
     </style>
+
+
+
 <form action="/simpan-form" method="post" enctype="multipart/form-data">
     @csrf
 <section class="content-header">
@@ -37,26 +40,27 @@
                     <h3 class="card-title">I.	Data Pengawas :</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label>Divisi <code>*</code></label>
-                        <div id="id_divisi" data-id="{{Auth::user()->id_divis}}"></div>
-                        <select name="divisi" class="custom-select rounded-0 @error('divisi') is-invalid @enderror">
-                        @if (Auth::user()->id_divisi<>'' || Auth::user()->id_divisi<>null)
-                            @foreach ($petugas as $pts)
-                                <option value="{{$pts->kd_petugas}}">({{$pts->kd_petugas}}) {{$pts->ket}}</option>
-                            @endforeach
-                        @else
-                            <option value="{{ old('divisi') }}">== Pilih Divisi ==</option>
-                            @foreach ($petugas as $pts)
-                                <option value="{{$pts->kd_petugas}}">({{$pts->kd_petugas}}) {{$pts->ket}}</option>
-                            @endforeach
-                        @endif
-                        </select>
-                        @error('divisi')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+
+                    <div class="">
+                        <div class="form-group">
+                            <label>Divisi  <code>*</code></label>
+                            <div id="id_divisi" data-id="{{Auth::user()->id_divis}}"></div>
+                            <select name="divisi" class="custom-select rounded-0 @error('divisi') is-invalid @enderror">
+                            @if (Auth::user()->id_divisi<>'' || Auth::user()->id_divisi<>null)
+                                @foreach ($petugas as $pts)
+                                    <option value="{{$pts->kd_petugas}}">({{$pts->kd_petugas}}) {{$pts->ket}}</option>
+                                @endforeach
+                            @else
+                                <option value="{{ old('divisi') }}">== Pilih Divisi ==</option>
+                                @foreach ($petugas as $pts)
+                                    <option value="{{$pts->kd_petugas}}">({{$pts->kd_petugas}}) {{$pts->ket}}</option>
+                                @endforeach
+                            @endif
+                            </select>
+                            @error('divisi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Nama Pelaksana Tugas <code>*</code></label>
@@ -132,6 +136,19 @@
                     <h3 class="card-title">II.	Kegiatan Pencegahan :</h3>
                 </div>
                 <div class="card-body">
+                        <div class="form-group">
+                            <label>Nama Event Pemilihan  <code>*</code></label>
+                            <select name="wp_id" class="custom-select rounded-0 @error('wp_id') is-invalid @enderror">
+                            <option value="">== Pilih Nama Event ==</option>
+                            @foreach ($twp as $wp)
+                                <option value="{{$wp->id}}">{{$wp->nama_wp}}</option>
+                            @endforeach
+                            </select>
+                            @error('wp_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                     <div class="form-group">
                         <label>Tahapan <code>*</code></label>
                         <select id="tahap" name="tahap" class="custom-select rounded-0 @error('tahap') is-invalid @enderror">
@@ -508,8 +525,8 @@
                 }
             });
 
-               //  select province:start
-                if(document.getElementById('prov')==null){
+            //  select province:start
+            if(document.getElementById('prov')==null){
                $('#select_province').select2({
                   allowClear: true,
                   ajax: {
@@ -528,12 +545,12 @@
                      }
                   }
                });
-               }else{
+            }else{
 
-               }
-               //  select province:end
-               //  Event on change select province:start
-               if(document.getElementById('prov')==null){
+            }
+            //  select province:end
+            //  Event on change select province:start
+            if(document.getElementById('prov')==null){
                 $("#show_kab").hide();
                 $("#show_kec").hide();
 
@@ -573,7 +590,7 @@
                      $("#select_village").empty();
                   }
                 });
-               }else{
+            }else{
                 let provinceID = document.getElementById('prov').value;
                     $("#show_prov").show();
                  if(document.getElementById('kab')==null){
@@ -608,7 +625,7 @@
                      $("#select_district").empty();
                      $("#select_village").empty();
                   }
-               }
+            }
                //  Event on change select province:end
 
                //  Event on change select regency:start

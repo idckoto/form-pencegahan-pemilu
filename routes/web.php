@@ -1,5 +1,6 @@
 <?php
-
+use App\Http\Controllers\KpController;
+use App\Http\Controllers\WpController;
 use App\Http\Controllers\BentukController;
 use App\Http\Controllers\GraphController;
 use App\Http\Controllers\BerandaController;
@@ -46,7 +47,8 @@ Route::controller(ChangePasswordController::class)->group(function () {
 Route::group(['active_menu' => 'welcome'], function () {
     Route::controller(BerandaController::class)->group(function () {
         Route::get('/welcome', 'index');
-
+        Route::get('/statistik', 'statistik');
+        Route::get('/statistik-show/{id}', 'statistikShow');
     });
 });
 
@@ -103,6 +105,29 @@ Route::controller(UseaksesController::class)->group(function () {
 Route::get('/user-akses-show_tes/{id}', [UseaksesController::class, 'show_tes'])->name('user.show_tes');
 
 Route::group(['open_menu' => 'data_master'], function () {
+
+    Route::group(['active_menu' => 'kp'], function () {
+        Route::controller(KpController::class)->group(function () {
+            Route::get('/kp', 'index');
+            Route::get('/tambah-kp', 'create');
+            Route::get('/edit-kp/{id}', 'edit');
+            Route::put('/edit-kp/{id}', 'update');
+            Route::post('/simpan-kp', 'store');
+            Route::delete('/hapus-kp', 'destroy');
+        });
+    });
+    
+    Route::group(['active_menu' => 'wp'], function () {
+        Route::controller(WpController::class)->group(function () {
+            Route::get('/wp', 'index');
+            Route::get('/tambah-wp', 'create');
+            Route::get('/edit-wp/{id}', 'edit');
+            Route::put('/edit-wp/{id}', 'update');
+            Route::post('/simpan-wp', 'store');
+            Route::delete('/hapus-wp', 'destroy');
+        });
+    });
+
     Route::group(['active_menu' => 'petugas'], function () {
         Route::controller(PetugasController::class)->group(function () {
             Route::get('/petugas', 'index');

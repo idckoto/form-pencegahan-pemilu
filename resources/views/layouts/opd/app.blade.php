@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="{{ asset('blackend/sweetalert/sweetalert2.min.css')}}">
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed text-sm sidebar-collapse sidebar-mini-xs layout-navbar-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         @include('layouts.opd.navbar')

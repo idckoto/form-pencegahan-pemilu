@@ -12,7 +12,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
-        {{--  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 @if (Auth::user()->profile_photo_path!=null)
                 <img src="{{ Storage::url('public/staff/'.Auth::user()->profile_photo_path.'') }}" class="img-thumbnail"
@@ -25,9 +25,9 @@
 
             </div>
             <div class="info">
-                <a href="/profil" class="d-block">{{ Auth::user()->NamaLengkap }}</a>
+                <a href="/profil" class="d-block">{{ Auth::user()->name }}</a>
             </div>
-        </div>  --}}
+        </div>  
 
 
 
@@ -78,6 +78,18 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/kp" class="nav-link {{ $active_menu == 'kp' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Kategori Pemilihan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/wp" class="nav-link {{ $active_menu == 'wp' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Wilayah Pemilihan</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="/petugas" class="nav-link {{ $active_menu == 'petugas' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
