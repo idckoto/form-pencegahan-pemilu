@@ -49,7 +49,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="/dashboard" class="nav-link {{ $active_menu == 'dashboard' ? 'active' : '' }}">
+                    <a href="/statistik" class="nav-link {{ $active_menu == 'dashboard' ? 'active' : '' }}">
+                    <!--<a href="/dashboard" class="nav-link {{ $active_menu == 'dashboard' ? 'active' : '' }}"> -->
                         <i class="nav-icon fas fa-chart-pie text-warning"></i>
                         <p>
                             Grafik

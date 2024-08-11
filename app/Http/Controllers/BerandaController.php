@@ -196,6 +196,7 @@ class BerandaController extends Controller
         }
 
         return view('beranda.statistikPemilihan', compact(
+            'id',
             'twp',
             'twp_title',
             'date_start',
