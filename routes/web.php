@@ -48,6 +48,7 @@ Route::group(['active_menu' => 'welcome'], function () {
     Route::controller(BerandaController::class)->group(function () {
         Route::get('/welcome', 'index');
         Route::get('/statistik', 'statistik');
+        Route::get('/statistik-pemilihan/{id}', 'statistikPemilihan');
         Route::get('/statistik-show/{id}', 'statistikShow');
     });
 });
