@@ -32,7 +32,8 @@
                           <tr>
                             <th>No</th>
                             <th>Nomor Form Pencegahan</th>
-                            <th>Tahap</th>
+                            <!--<th>Tahap</th>-->
+                            <th>Nama Tahapan</th>
                             <th>Nama Pelaksana</th>
                             <!--<th>Nomor Surat Perintah Tugas</th>-->
                             <th>Nama Pemilihan</th>
@@ -48,8 +49,16 @@
                             @endphp
                                 <td>{{++$no}}</td>
                                 <td>{{$pecah[0].'/'.$pecah[1].'/'.$pecah[2].'/'.ltrim($bulan,'0').'/'.$pecah[4]}}</td>
-                                <td>{{$cegah->tahap}}</td>
-                                <td> @php
+                                <!-- <td>{{$cegah->tahap}}</td>-->
+                                <td>
+                                    @if ($cegah->tahap=="Tahapan")
+                                        {{$cegah->tahapan->tahapan}}
+                                    @else
+                                        {{$cegah->tahap}}
+                                    @endif
+                                </td>
+                                <td> 
+                                @php
                                     $namaPtDecoded = json_decode($cegah->namapt);
                                 @endphp
                             

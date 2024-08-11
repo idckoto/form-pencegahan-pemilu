@@ -36,4 +36,9 @@ class Formcegah extends Model
         return $this->belongsTo(Twp::class, 'wp_id', 'id');
     }
 
+    public function tahapan()
+    {
+        return $this->belongsTo(Tahapan::class, 'tahaps', 'id');
+    }
+
 }
