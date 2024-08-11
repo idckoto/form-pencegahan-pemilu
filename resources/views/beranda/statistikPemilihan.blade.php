@@ -390,7 +390,7 @@ $(document).ready(function () {
     setTimeout(callSums(3), 1000);  //Kerja Sama
     setTimeout(callSums(4), 1000);  //Naskah Dinas
     setTimeout(callSums(5), 1000);  //Publikasi
-    setTimeout(callSums(6), 1000);      //Identifikasi Kerawanan
+    //setTimeout(callSums(6), 1000);      //Identifikasi Kerawanan
     function callSums(bentuk){        
         $(".overlay").show(); 
 
@@ -510,7 +510,7 @@ $(document).ready(function () {
                 
             },
             title: {
-                text: 'Berdasarkan Data Tahapan',
+                text: '',
                 align: 'left'
             },
             accessibility: {
