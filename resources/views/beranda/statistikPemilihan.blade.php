@@ -363,7 +363,7 @@
 
   <input type="hidden" name="date_start" id="date_start" value="{{ date('Y-m-d', strtotime($date_start)) }}">
   <input type="hidden" name="date_finish" id="date_finish" value="{{ date('Y-m-d', strtotime($date_finish)) }}">
-  <input type="hidden" name="twp_id" id="twp_id" value="{{ $twp_title->id }}">
+  <input type="hidden" name="wp_id" id="wp_id" value="{{ $twp_title->id }}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -379,6 +379,7 @@ $(document).ready(function () {
     var jenis           = $('#jenis').val();
     var pilih_wilayah   = $('#pilih_wilayah').val();
     var wilayah_dropdown= $('#wilayah_dropdown').val();
+    var wp_id           = $('#wp_id').val();
 
 
     /*--------------------------------------------
@@ -391,16 +392,20 @@ $(document).ready(function () {
     setTimeout(callSums(4), 1000);  //Naskah Dinas
     setTimeout(callSums(5), 1000);  //Publikasi
     setTimeout(callSums(6), 1000);      //Identifikasi Kerawanan
-    function callSums(bentuk){        
+    function callSums(bentuk){   
+             
         $(".overlay").show(); 
+        
+        var form_data = {
+            bentuk: bentuk,
+            wp_id: wp_id,
+            _token: '{{csrf_token()}}'
+        };
 
         $.ajax({
             url: "{{url('recap/all-sums')}}",
             type: "POST",
-            data: {
-                bentuk: bentuk,
-                _token: '{{csrf_token()}}'
-            },
+            data: form_data,
             dataType: 'json',
             success: function (msg) {
                 if(bentuk==0){
@@ -474,6 +479,7 @@ $(document).ready(function () {
             jenis: jenis,
             pilih_wilayah: pilih_wilayah,
             wilayah_dropdown: wilayah_dropdown,
+            wp_id: wp_id,
             _token: '{{csrf_token()}}'
         };
 
@@ -554,6 +560,7 @@ $(document).ready(function () {
             jenis: jenis,
             pilih_wilayah: pilih_wilayah,
             wilayah_dropdown: wilayah_dropdown,
+            wp_id: wp_id,
             _token: '{{csrf_token()}}'
         };
 
@@ -628,6 +635,7 @@ $(document).ready(function () {
             jenis: jenis,
             pilih_wilayah: pilih_wilayah,
             wilayah_dropdown: wilayah_dropdown,
+            wp_id: wp_id,
             _token: '{{csrf_token()}}'
         };
 
@@ -703,6 +711,7 @@ $(document).ready(function () {
             jenis: jenis,
             pilih_wilayah: pilih_wilayah,
             wilayah_dropdown: wilayah_dropdown,
+            wp_id: wp_id,
             _token: '{{csrf_token()}}'
         };
 

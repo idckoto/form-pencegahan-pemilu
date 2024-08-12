@@ -3802,6 +3802,10 @@ class GraphController extends Controller
             if ($request->pilih_wilayah == "kota") {
                 $qFormCegah = $qFormCegah->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
             } 
+
+            $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+            
+
             $qFormCegah = $qFormCegah->count(); 
             //var_dump($qFormCegah);
 
@@ -3830,6 +3834,8 @@ class GraphController extends Controller
                 if ($request->jenis != "") {
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
+
+                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
             
                 $qFormCegah = $qFormCegah->count(); 
 
@@ -3853,6 +3859,8 @@ class GraphController extends Controller
                 if ($request->jenis != "") {
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
+
+                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
             
                 $qFormCegah = $qFormCegah->count(); 
 
@@ -3871,6 +3879,8 @@ class GraphController extends Controller
                 if ($request->jenis != "") {
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
+
+                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
             
                 $qFormCegah = $qFormCegah->count();                 
         }
@@ -4052,6 +4062,8 @@ class GraphController extends Controller
             $qtahapan_pie = $qtahapan_pie->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
         }
 
+        $qtahapan_pie = $qtahapan_pie->where('formcegahs.wp_id', $request->wp_id);
+
         $tahapan_pie = $qtahapan_pie->groupBy('tahap')->get();
 
         $dataTahap = [];
@@ -4121,6 +4133,8 @@ class GraphController extends Controller
             $qbentuk_pie = $qbentuk_pie->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
         }
 
+        $qbentuk_pie = $qbentuk_pie->where('formcegahs.wp_id', $request->wp_id);
+
         $bentuk_pie = $qbentuk_pie->groupBy('bentuks.bentuk')->get();
 
         $dataBentuk = [];
@@ -4155,7 +4169,8 @@ class GraphController extends Controller
             ->leftJoin('bentuks', 'formcegahs.bentuk', 'bentuks.id')
             // ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
             ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
-            ->where('formcegahs.id_provinsi', '');
+            ->where('formcegahs.id_provinsi', '')
+            ->where('formcegahs.wp_id', $request->wp_id);
 
         $categories_RI = $q_categories_RI->groupBy('bentuks.bentuk')->get()->pluck('bentuk');
         
@@ -4163,7 +4178,8 @@ class GraphController extends Controller
         ->leftJoin('bentuks', 'formcegahs.bentuk', 'bentuks.id')
         //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
         ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
-        ->where('formcegahs.id_provinsi', '');
+        ->where('formcegahs.id_provinsi', '')
+        ->where('formcegahs.wp_id', $request->wp_id);
 
         $count_RI = $q_RI->groupBy('bentuks.bentuk')->get()->pluck('count');
 
@@ -4194,7 +4210,8 @@ class GraphController extends Controller
             ->leftJoin('jenis', 'formcegahs.jenis', 'jenis.id')
             ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
             //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
-            ->where('formcegahs.jenis','<>', '');
+            ->where('formcegahs.jenis','<>', '')
+            ->where('formcegahs.wp_id', $request->wp_id);
 
         $categories_jenis = $q_categories_jenis->groupBy('jenis.jenis')->get()->pluck('jenis');
 
@@ -4202,7 +4219,8 @@ class GraphController extends Controller
             ->leftJoin('jenis', 'formcegahs.jenis', 'jenis.id')
             ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
             //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
-            ->where('formcegahs.jenis','<>', '');
+            ->where('formcegahs.jenis','<>', '')
+            ->where('formcegahs.wp_id', $request->wp_id);
 
         $count_jenis = $q_jenis->groupBy('jenis.jenis')->get()->pluck('count');
 
