@@ -124,7 +124,7 @@ foreach ($formcegahs as $formcegah) {
                         ->orWhere('kp_id',1)
                         ->get();            
         } else if(Auth::user()->Jabatan=="Sekretariat Bawaslu Provinsi") {
-            
+            $twp = Twp::get();  
         }
 
         // dd($petugas);
