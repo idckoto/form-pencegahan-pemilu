@@ -51,14 +51,14 @@
                                     @endforeach
                                 </select>
                               </div>
-                              <div class="col-4">
-                                <select name="bentuk" class="form-control" id="bentuk">
-                                  <option value="" selected> Pilih Bentuk Pencegahan </option>
-                                    @foreach( $dropdowns['bentuk'] as $item)
-                                      <option value="{{ $item->id_bentuk}}" {{ (old('bentuk') == $item->id_bentuk) ? 'selected' : '' }}> {{ $item->bentuk }} </option>
-                                    @endforeach
-                                </select>
-                              </div>
+                                <div class="col-4">
+                                    <select name="bentuk" class="form-control" id="bentuk">
+                                        <option value="" selected> Pilih Bentuk Pencegahan </option>
+                                            @foreach( $dropdowns['bentuk'] as $item)
+                                                <option value="{{ $item->id_bentuk}}" {{ (old('bentuk') == $item->id_bentuk) ? 'selected' : '' }}> {{ $item->bentuk }} </option>
+                                            @endforeach
+                                    </select>
+                                </div>
                               <div class="col-4">
                                 <select name="jenis" class="form-control" id="jenis">
                                   <option value="" selected> Pilih Jenis </option>
@@ -133,16 +133,6 @@
 
 
           <div class="col-md-4">
-            <!-- Info Boxes Style 2 -->
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="ion ion-pie-graph"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">IDENTIFIKASI KERAWANAN</span>
-                <span class="info-box-number" id='identifikasi_kerawananSum'>0</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
             <!-- /.info-box -->
             <div class="info-box mb-3">
               <span class="info-box-icon bg-success elevation-1"><i class="ion ion-pie-graph"></i></span>
@@ -191,6 +181,16 @@
               <div class="info-box-content">
                 <span class="info-box-text">PUBLIKASI</span>
                 <span class="info-box-number" id="publikasiSum">0</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="ion ion-pie-graph"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">IDENTIFIKASI KERAWANAN</span>
+                <span class="info-box-number" id='identifikasi_kerawananSum'>0</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -271,7 +271,7 @@
             @elseif($userProv == 'non pusat')
                 <div class="d-none row" hidden>
                     <!-- /.col -->
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="chart_sebaran">
                         <div class="card">
                             <div class="card card-warning card-outline">
                                 <div class="card-header">
@@ -381,17 +381,146 @@ $(document).ready(function () {
     var wilayah_dropdown= $('#wilayah_dropdown').val();
     var wp_id           = $('#wp_id').val();
 
+    /*------------------------------------------
+    --------------------------------------------
+    Dropdown Change Event
+    --------------------------------------------
+    --------------------------------------------*/
+    $('#pilih_wilayah').on('change', function () {
+        //alert('hai');
+        var valWilayah = this.value;
+        $("#wilayah_dropdown").html('');
+        $.ajax({
+            url: "{{url('dashboard/fetch-wilayah')}}",
+            type: "POST",
+            data: {
+                val_wilayah: valWilayah,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function (result) {
+                $('#wilayah_dropdown').html('<option value="">-- Pilih Filter --</option>');
+                $.each(result.states, function (key, value) {
+                    $("#wilayah_dropdown").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
+                });
+            }
+        });
+    });
 
+    /*------------------------------------------
+    --------------------------------------------
+    State Dropdown Change Event
+    --------------------------------------------
+    --------------------------------------------*/
+    $('#state-dropdown').on('change', function () {
+        var idState = this.value;
+        $("#city-dropdown").html('');
+        $.ajax({
+            url: "{{url('api/fetch-cities')}}",
+            type: "POST",
+            data: {
+                state_id: idState,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function (res) {
+                $('#city-dropdown').html('<option value="">-- Select City --</option>');
+                $.each(res.cities, function (key, value) {
+                    $("#city-dropdown").append('<option value="' + value
+                        .id + '">' + value.name + '</option>');
+                });
+            }
+        });
+    });
+
+    /*------------------------------------------
+    --------------------------------------------
+    click Tampilam
+    --------------------------------------------
+    --------------------------------------------*/
+    $('#tampilkan').on('click', function () {
+        //alert('anda tekan tampilkan');
+        var frm_date_start  = $('#frm_date_start').val();
+        var frm_date_finish = $('#frm_date_finish').val();
+        var divisi          = $('#divisi').val();
+        var bentuk          = $('#bentuk').val();
+        var jenis           = $('#jenis').val();
+        var pilih_wilayah   = $('#pilih_wilayah').val();
+        var wilayah_dropdown= $('#wilayah_dropdown').val();
+        var wp_id           = $('#wp_id').val();
+        
+        var form_data = {
+            date_start: frm_date_start,
+            date_finish: frm_date_finish,
+            divisi: divisi,
+            bentuk: bentuk,
+            jenis: jenis,
+            pilih_wilayah: pilih_wilayah,
+            wilayah_dropdown: wilayah_dropdown,
+            wp_id: wp_id,
+            _token: '{{csrf_token()}}'
+        };
+
+        $("#kegiatanlainSum").show().html('.');
+        $("#pendidikanSum").show().html('');
+        $("#pendidikanSum").show().html('.');
+        $("#partisipasiSum").show().html('.');
+        $("#kerjasamaSum").show().html('.');
+        $("#naskahdinasSum").show().html('.');
+        $("#publikasiSum").show().html('.');
+        $("#identifikasi_kerawananSum").show().html('.');
+
+        callFilterSums(0);
+        callFilterSums(1);
+        callFilterSums(2);
+        callFilterSums(3);
+        callFilterSums(4);
+        callFilterSums(5);
+        callFilterSums(6);
+        /*$.ajax({
+            url: "{{url('recap/filter-all-sums')}}",
+            type: "POST",
+            data: form_data,
+            dataType: 'json',
+            success: function (msg) {
+                //console.log(bentuk);
+                if(bentuk==0){
+                    $("#kegiatanlainSum").show().html(msg);
+                } else if(bentuk==1) {
+                    $("#pendidikanSum").show().html(msg);
+                    $("#pendidikanSum").show().html(msg);
+                } else if(bentuk==2) {
+                    $("#partisipasiSum").show().html(msg);
+                } else if(bentuk==3) {
+                    $("#kerjasamaSum").show().html(msg);
+                } else if(bentuk==4) {
+                    $("#naskahdinasSum").show().html(msg);
+                } else if(bentuk==5) {
+                    $("#publikasiSum").show().html(msg);
+                } else {
+                    $("#identifikasi_kerawananSum").show().html(msg);
+                }                
+                $(".grafik_periode").show().html('GRAFIK PERIODE <b>'+frm_date_start+'</b> SAMPAI <b>'+frm_date_finish+'</b>');
+            }
+        });*/
+        
+        loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish);
+        loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish);
+
+
+    });
+    
     /*--------------------------------------------
     Call Function All SUM
     ----------------------------------------------*/
-    setTimeout(callSums(0), 1000);    //Kegiatan Lainnya
+    setTimeout(callSums(0), 1000);  //Kegiatan Lainnya
     setTimeout(callSums(1), 1000);  //Pendidikan
     setTimeout(callSums(2), 1000);  //Partisipasi Masyarakat
     setTimeout(callSums(3), 1000);  //Kerja Sama
     setTimeout(callSums(4), 1000);  //Naskah Dinas
     setTimeout(callSums(5), 1000);  //Publikasi
-    setTimeout(callSums(6), 1000);      //Identifikasi Kerawanan
+    setTimeout(callSums(6), 1000);  //Identifikasi Kerawanan
     function callSums(bentuk){   
              
         $(".overlay").show(); 
@@ -432,16 +561,34 @@ $(document).ready(function () {
         
     };
     /** close Call A **/
-    function callFilterSums(id)
+    function callFilterSums(bentuk)
     {
-        var bentuk = id;
+        var frm_date_start  = $('#frm_date_start').val();
+        var frm_date_finish = $('#frm_date_finish').val();
+        var divisi          = $('#divisi').val();
+        //var bentuk          = $('#bentuk').val();
+        var jenis           = $('#jenis').val();
+        var pilih_wilayah   = $('#pilih_wilayah').val();
+        var wilayah_dropdown= $('#wilayah_dropdown').val();
+        var wp_id           = $('#wp_id').val();
+
+        //var bentuk = id;
+        var form_data = {
+            date_start: frm_date_start,
+            date_finish: frm_date_finish,
+            divisi: divisi,
+            bentuk: bentuk,
+            jenis: jenis,
+            pilih_wilayah: pilih_wilayah,
+            wilayah_dropdown: wilayah_dropdown,
+            wp_id: wp_id,
+            _token: '{{csrf_token()}}'
+        };
+
         $.ajax({
             url: "{{url('recap/filter-all-sums')}}",
             type: "POST",
-            data: {
-                bentuk: bentuk,
-                _token: '{{csrf_token()}}'
-            },
+            data: form_data,
             dataType: 'json',
             success: function (msg) {
                 if(bentuk==0){
