@@ -23,6 +23,7 @@ use App\Models\Wilayah;
 use App\Models\Jabatan;
 use App\Models\User;
 use App\Models\Twp;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\File;
 
@@ -559,7 +560,7 @@ foreach ($formcegahs as $formcegah) {
 
     public function getFormcegahData(Request $request)
 {
-    $columns = ['id', 'no_form', 'tahap', 'nspt']; // Sesuai dengan kolom database
+    $columns = ['id', 'no_form', 'tahap', 'namapt', 'wp_id']; // Sesuai dengan kolom database
 
     // Memetakan request dari DataTables
     $columnIndex = $request->input('order.0.column'); // Index kolom untuk pengurutan
@@ -568,7 +569,12 @@ foreach ($formcegahs as $formcegah) {
     $searchValue = $request->input('search.value'); // Nilai pencarian
 
     // Query berdasarkan role atau lokasi pengguna
-    $query = Formcegah::query();
+    //$query = Formcegah::query();
+    //$query = Formcegah::join(['wp', 'wp.id', '=', 'formcegahs.wp_id']);
+    $query = DB::table('formcegahs as f')
+                    ->join('twp as w', 'w.id', '=', 'f.wp_id')
+                    ->leftJoin('tahapans as t', 't.id', '=', 'f.tahaps');
+
     if (Auth::user()->id_admin == '0') {
         // Tambahkan logika untuk admin
     } elseif (Auth::user()->KabKota == null) {
@@ -584,7 +590,8 @@ foreach ($formcegahs as $formcegah) {
         $query->where(function($query) use ($searchValue) {
             $query->where('no_form', 'like', '%' . $searchValue . '%')
                   ->orWhere('tahap', 'like', '%' . $searchValue . '%')
-                  ->orWhere('nspt', 'like', '%' . $searchValue . '%');
+                  ->orWhere('w.nama_wp', 'like', '%' . $searchValue . '%')
+                  ->orWhere('t.tahapan', 'like', '%' . $searchValue . '%');
         });
     }
 
@@ -594,19 +601,42 @@ foreach ($formcegahs as $formcegah) {
     // Pengurutan dan Pagination
     $queryResult = $query->skip($request->input('start'))
                   ->take($request->input('length'))
-                  ->orderBy($columnName, $columnSortOrder)
-                  ->get();
+                  ->orderBy($columnName, 'desc')
+                  ->get(['f.id as id', 'f.no_form as no_form', 'f.tahap as tahap', 'f.tahaps as tahaps', 'f.namapt', 'w.nama_wp as wp_id', 'f.created_at', 't.tahapan as tahapan']);
 
     // Memodifikasi data sebelum dikirim ke DataTables
     $data = $queryResult->map(function ($item) {
         $pecah = explode('/', $item->no_form);
         $bulan = explode('-', explode(' ', $item->created_at)[0])[1];
         $item->no_form = $pecah[0].'/'.$pecah[1].'/'.$pecah[2].'/'.ltrim($bulan, '0').'/'.$pecah[4];
+
+        if($item->tahap=="Tahapan"){
+            //$item->tahap = $item->tahapan->tahapan;
+            //$tahap = \App\Models\Tahapan::where('id',$item->tahaps)->get(['tahapan']);
+            //$item->tahap = $tahap[0]['tahapan'];
+            //$item->tahap = $item->tahaps;
+            $item->tahap = $item->tahapan;
+        } else {
+            $item->tahap = $item->tahap;
+        }
+
+        $namaPtDecoded = json_decode($item->namapt);
+        if(is_array($namaPtDecoded) && count($namaPtDecoded) > 0) 
+        {
+            $item->namapt = $namaPtDecoded[0] ;
+        } else {
+            $item->namapt;
+        }
+       
+        $item->wp_id = $item->wp_id; //$item->wp->nama_wp;
+
         $encryptedId = Crypt::encryptString($item->id);
         $item->cetak = '<a class="btn btn-primary btn-sm" href="'.url('/cetak-form/' . $encryptedId).'"><i class="fas fa-print"></i> Cetak</a>';
 
         return $item;
     });
+
+    //dd($data);
 
     // Total record tanpa filter
     $totalData = Formcegah::count();
