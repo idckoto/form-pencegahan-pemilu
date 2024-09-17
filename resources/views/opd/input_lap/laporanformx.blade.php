@@ -171,9 +171,11 @@
     <!-- Contoh Impor jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-       $(document).ready(function() {
-    $('#formcegahTable').DataTable({
+<script>
+$(document).ready(function() {
+    //var dtable = $("#formcegahTable").DataTable().api();
+
+    var dtable = $('#formcegahTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
@@ -197,10 +199,29 @@
             { data: 'namapt', name: 'namapt' },
             { data: 'wp_id', name: 'wp_id' },
             { data: 'cetak', name: 'cetak', orderable: false, searchable: false },
-        ]
+        ],
+        "initComplete": function() 
+        {
+         $(".dataTables_filter input")
+          .unbind() // Unbind previous default bindings
+          .bind("input", function(e) { // Bind our desired behavior
+              // If the length is 3 or more characters, or the user pressed ENTER, search
+              if(this.value.length > 3 || e.keyCode == 13) {
+                  // Call the API search function
+                  dtable.search(this.value).draw();
+              }
+              // Ensure we clear the search if they backspace far enough
+              if(this.value == "") {
+                  dtable.search("").draw();
+              }
+              return;
+          });
+          
+        }
+
     });
 });
 
-        </script>
+</script>
         
 	@endpush
