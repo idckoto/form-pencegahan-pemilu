@@ -28,10 +28,13 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nomor Form</th>
-                                    <th>Tahap</th>
-                                    <th>NSPT</th>
-                                    <th>Aksi</th>
+                                    <th>Nomor Form Pencegahan</th>
+                                    <!--<th>Tahap</th>-->
+                                    <th>Nama Tahapan</th>
+                                    <th>Nama Pelaksana</th>
+                                    <!--<th>Nomor Surat Perintah Tugas / NSPT</th>-->
+                                    <th>Nama Pemilihan</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -191,7 +194,8 @@
             { data: 'id', name: 'id' },
             { data: 'no_form', name: 'no_form' },
             { data: 'tahap', name: 'tahap' },
-            { data: 'nspt', name: 'nspt' },
+            { data: 'namapt', name: 'namapt' },
+            { data: 'wp_id', name: 'wp_id' },
             { data: 'cetak', name: 'cetak', orderable: false, searchable: false },
         ]
     });

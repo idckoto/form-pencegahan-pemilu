@@ -67,7 +67,9 @@
                                 @else
                                     {{-- Tampilkan pesan error atau nilai default --}}
                                 @endif</td>
+                                
                                 <td>{{$cegah->wp->nama_wp}}</td>
+
                                 <td class="project-actions text-right">
                                         @php
                                             $id=Crypt::encryptString($cegah->id);
