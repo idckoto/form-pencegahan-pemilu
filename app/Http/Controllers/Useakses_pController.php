@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\LogAktif;
+use Intervention\Image\Facades\Image as Image;
 
 class Useakses_pController extends Controller
 {
@@ -35,10 +36,13 @@ class Useakses_pController extends Controller
         $user = Auth::user(); // Get the authenticated user instance
     
         if ($request->input('password') === null) {
-            $user->update([
-                // 'name' => Auth::user()->name,
-                'email' => $request->input('email'),
-            ]);
+            if($request->input(key: 'name') !== Auth::user()->name) { // jika name input masih sama dengan name lama, tidak update namen-nya
+                $user->update([
+                    'name' => $request->input('name'),
+                    //'email' => $request->input('email'),
+                ]);
+            }
+
         } else {
             // Validate old password
             if (!Hash::check($request->input('old_password'), $user->password)) {
@@ -46,8 +50,8 @@ class Useakses_pController extends Controller
             }
     
             $user->update([
-                // 'name' => Auth::user()->name,
-                'email' => $request->input('email'),
+                'name' => $request->input('name'),
+                //'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
             ]);
         }
@@ -59,28 +63,45 @@ class Useakses_pController extends Controller
 
     public function update_image(Request $request)
     {
+        
         $this->validate($request, [
             'profile_photo_path'        => 'required|image|mimes:png,jpg,jepg|max:2000',
         ]);
         //remove old image
-        Storage::disk('local')->delete('public/staff/' . Auth::user()->profile_photo_path);
+        //Storage::disk('local')->delete('staff/' . Auth::user()->profile_photo_path);
+        
+        if ($request->hasFile('profile_photo_path')) {
+            $file = $request->file('profile_photo_path');
+            $hashedName = Hash::make($file->getClientOriginalName() . time()); // Tambahkan time() untuk variasi
+            $hashedName = str_replace('/', '', $hashedName); // Hilangkan karakter '/' agar aman untuk nama file
+            $extension = $file->getClientOriginalExtension();
+            $imageName = $hashedName . '.' . $extension;
+            
+            $file->move(public_path('staff'), $imageName);
+
+            //$request->profile_photo_path->move(public_path('staff'), $imageName);
+
+            $user = User::where('id', Auth::user()->id);
+            $user->update([
+                'profile_photo_path'      => $imageName,
+    
+            ]);
+    
+            if ($user) {
+                //redirect dengan pesan sukses
+                return back()->with('status', ' Berhasil Di Simpan');
+            } else {
+                //redirect dengan pesan error
+                return back()->with('error', 'Berhasil Di Update');
+            }          
+        }
 
         //upload new image
-        $profile_photo_path = $request->file('profile_photo_path');
-        $profile_photo_path->storeAs('public/staff', $profile_photo_path->hashName());
+       // $profile_photo_path = $request->file('profile_photo_path');
 
-        $user = User::where('id', Auth::user()->id);
-        $user->update([
-            'profile_photo_path'      => $profile_photo_path->hashName(),
+        //$profile_photo_path->storeAs('public/storage/staff', $profile_photo_path->hashName());
+        //Storage::disk('local')->put('staff'.'/'.$profile_photo_path->hashName(), 'public');
 
-        ]);
 
-        if ($user) {
-            //redirect dengan pesan sukses
-            return back()->with('status', ' Berhasil Di Simpan');
-        } else {
-            //redirect dengan pesan error
-            return back()->with('error', 'Berhasil Di Update');
-        }
     }
 }
