@@ -9,6 +9,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a href="/profil" class="nav-link"><span class="badge badge-info"><i class="fas fa-user mr-2"></i>{{ strtoupper(Auth::user()->name) }}</span></a></li>
+        <li class="nav-item"><a href="/profil" class="nav-link"><span class=""><i class="fas fa-user mr-2"></i>{{ strtoupper(Auth::user()->name) }}</span></a></li>
     </ul>
 </nav>

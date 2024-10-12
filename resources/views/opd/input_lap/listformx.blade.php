@@ -68,7 +68,11 @@
                                     {{-- Tampilkan pesan error atau nilai default --}}
                                 @endif</td>
                                 
-                                <td>{{$cegah->wp->nama_wp}}</td>
+                                <td>
+                                    @if ($cegah->wp->nama_wp!="")
+                                    {{$cegah->wp->nama_wp}}
+                                    @endif
+                                </td>
 
                                 <td class="project-actions text-right">
                                         @php
