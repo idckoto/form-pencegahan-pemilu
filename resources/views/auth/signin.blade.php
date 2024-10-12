@@ -11,7 +11,7 @@
         <h4>Update Sistem</h4>
     </div>
     <div class="card-body">
-    <h2><center>Layanan aplikasi akan di tutup sementara mulai jam 23:00 WIB.</center></h2>
+    <h2><center>Layanan aplikasi akan di tutup sementara mulai 12 Oktober 2024, jam 23:00 WIB.</center></h2>
 
 
 			<!-- Modal -->
