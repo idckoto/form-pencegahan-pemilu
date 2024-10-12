@@ -70,7 +70,9 @@
                                 
                                 <td>
                                     @if ($cegah->wp->nama_wp=="" || $cegah->wp->nama_wp==" " || $cegah->wp->nama_wp==null)
-                                    {{$cegah->wp->nama_wp}}
+                                        {{$cegah->wp->nama_wp}}
+                                    @else
+                                        {{-- $cegah->wp->nama_wp --}}
                                     @endif
                                 </td>
 
