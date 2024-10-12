@@ -69,7 +69,7 @@
                                 @endif</td>
                                 
                                 <td>
-                                    @if ($cegah->wp->nama_wp!="")
+                                    @if ($cegah->wp->nama_wp=="" || $cegah->wp->nama_wp==" " || $cegah->wp->nama_wp==null)
                                     {{$cegah->wp->nama_wp}}
                                     @endif
                                 </td>
