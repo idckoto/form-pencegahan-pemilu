@@ -14,7 +14,7 @@
             <div class="text-center">
               <div class="image">
                 @if (Auth::user()->profile_photo_path != null)
-                  <img src="{{ Storage::url('public/staff/' . Auth::user()->profile_photo_path) }}" class="img-thumbnail" alt="{{ Auth::user()->name }}">
+                  <img src="{{ asset('staff/' . Auth::user()->profile_photo_path) }}" class="img-thumbnail" alt="{{ Auth::user()->name }}">
                 @else
                   <img src="{{ asset('blackend/dist/img/avatar5.png') }}" class="img-circle elevation-2" alt="User Image">
                 @endif
@@ -44,7 +44,7 @@
                   @php
                   $tgl = date('Y-m-d');
                   @endphp
-                  Update Profil <b>
+                  Update Profil. <b>
                     {{--  {{ hari_ini() }}, {{ dateIndonesia($tgl) }}  --}}
                   </b>
                 </a>
@@ -56,17 +56,17 @@
                 @method('patch')
 
                 <div class="box-body" style="padding-bottom: 0;">
-                  {{--  <div class="form-group">
+                  <div class="form-group">
                     <label>Nama</label>
                     <input type="text" name="name"value="{{ old('name',$user->name) }}" 
-                class="form-control @error('name') is-invalid @enderror" id="exampleInputEmail1" 
-                placeholder="Masukan Nama Desa" readonly>
-                @error('name')
-                <div class="invalid-feedback" style="display: block">
-                    {{ $message }}
-                </div>
-                @enderror
-                  </div>  --}}
+                              class="form-control @error('name') is-invalid @enderror" id="name" 
+                              placeholder="Masukan Nama">
+                    @error('name')
+                    <div class="invalid-feedback" style="display: block">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                  </div> 
 
                   <div class="form-group">
                     <label>Email</label>

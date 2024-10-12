@@ -15,7 +15,7 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 @if (Auth::user()->profile_photo_path!=null)
-                <img src="{{ Storage::url('public/staff/'.Auth::user()->profile_photo_path.'') }}" class="img-thumbnail"
+                <img src="{{ asset('staff/'.Auth::user()->profile_photo_path.'') }}" class="img-circle elevation-2"
                     alt="{{ Auth::user()->NamaLengkap }}" />
 
                 @else

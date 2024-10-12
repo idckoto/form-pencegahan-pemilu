@@ -73,9 +73,9 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
-                <b>Form Pencegahan Online</b>
-            </div>
             <strong><a href="/">BAWASLU</a> &copy; 2022 </strong>
+            </div>
+            <span class="badge badge-secondary badge-md">USER</span> : <span class="badge badge-info badge-md">{{ strtoupper(Auth::user()->name) }}</span> | <span class="badge badge-warning badge-md">{{ strtoupper(Auth::user()->Jabatan) }} </span>
         </footer>
 
         <!-- Control Sidebar -->
