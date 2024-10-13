@@ -29,7 +29,9 @@ class WpController extends Controller
      */
     public function index()
     {
-        $wp = Twp::get();
+        $wp = Twp::orderBy('kp_id', 'ASC')
+                    ->orderBy('kdpro', 'ASC')
+                    ->get();
 
         //dd($wp);
         return view('opd.wp.index', compact('wp'));
