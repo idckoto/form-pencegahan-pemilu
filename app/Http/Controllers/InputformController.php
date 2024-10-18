@@ -113,14 +113,15 @@ foreach ($formcegahs as $formcegah) {
         //dd($id_provinsi);
 
         if(Auth::user()->Jabatan=="Bawaslu Kecamatan") {
-            $twp = Twp::where('kabkot', '=', Auth::user()->Provinsi.'00')
-                    ->orWhere('kabkot', '=' , $user->KabKota)
+            $twp = Twp::where('kabkot', '=', $user->KabKota)
+                    ->orWhere('kabkot', '=' , Auth::user()->Provinsi.'00')
                     ->orWhere('kp_id', '=' , 1)
                     ->orderBy('kp_id', 'ASC')
                     ->orderBy('kdpro', 'ASC')
                     ->get();
         } else if(Auth::user()->Jabatan=="Ketua atau Anggota Bawaslu Kabupaten/Kota") {
-            $twp = Twp::where('kdpro','=', Auth::user()->Provinsi)
+            $twp = Twp::where('kabkot','=', Auth::user()->Provinsi.'00')
+                        ->orWhere('kabkot', '=' , $user->KabKota)
                         ->orWhere('kp_id','=',1)
                         ->orderBy('kp_id', 'ASC')
                         ->orderBy('kdpro', 'ASC')
