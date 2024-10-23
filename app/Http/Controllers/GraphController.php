@@ -4118,7 +4118,7 @@ class GraphController extends Controller
             END) AS count
             ')
         )
-            ->leftJoin('bentuks', 'formcegahs.bentuk', 'bentuks.id')
+            ->join('bentuks', 'formcegahs.bentuk', 'bentuks.id')
             ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
             ->where('formcegahs.id_provinsi', '<>', '');
 
