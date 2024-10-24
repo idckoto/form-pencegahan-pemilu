@@ -41,7 +41,7 @@ class BerandaController extends Controller
     }
 
 
-    public function statistik()
+    public function statistik_old()
     {
         $user = User::where('id', Auth::user()->id)->first();
 
@@ -103,6 +103,112 @@ class BerandaController extends Controller
         return view('beranda.statistik', compact('twp','warna','no','provinsi','kabupaten','kecamatan','wilpil'));
     }
 
+    public function statistik()
+    {
+        //$id =0;
+        //$twp_title = Twp::where('id', Crypt::decryptString($id))->first();
+        //$twp = Twp::where('id', Crypt::decryptString($id))->get();
+        
+        //$idUser = '1121';
+        $userProv = 'non pusat';
+
+        // dd($idUser);
+
+        $dropdowns = array();
+        $dropdowns['divisi'] = Petuga::select('kd_petugas')
+            ->get();
+            
+        $dropdowns['bentuk'] = Formcegah::select('bentuks.bentuk', 'formcegahs.bentuk as id_bentuk')
+            ->LeftJoin('bentuks', 'formcegahs.bentuk', 'bentuks.id')
+            ->orderBy('bentuks.bentuk', 'asc')
+            ->groupBy('bentuks.bentuk','formcegahs.bentuk')
+            ->get();
+            
+        $dropdowns['jenis'] = Formcegah::select('jenis.jenis', 'formcegahs.jenis as id_jenis')
+            ->LeftJoin('jenis', 'formcegahs.jenis', 'jenis.id')
+            ->orderBy('jenis.jenis', 'asc')
+            ->groupBy('jenis.jenis','formcegahs.jenis')
+            ->get();
+
+        $user = User::where('id', Auth::user()->id)->first();
+        $jabatan = $user->Jabatan;  
+        $now = Carbon::now();
+        //$date_start = $now->firstOfMonth()->format('Y-m-d');
+        $date_finish = $now->endOfMonth()->format('Y-m-d');
+        $date_start = '2024-01-01';
+
+        //   dd($user,$jabatan,$date_start,$date_finish);
+        if ($jabatan == 'Sekretariat Bawaslu Provinsi') {
+            //dd('hai sekretariat');
+            $userProv = 'non pusat';
+            $title = ' Seluruh Provinsi';
+        } else if ($jabatan == 'Ketua atau Anggota Bawaslu Provinsi') {
+            if ($user->Provinsi != null) {
+                //dd('provinsi');
+                $provinsi = Provinsi::where('id', $user->Provinsi)->first();
+                $title = ' Kabupaten/Kota di Seluruh Provinsi ' . $provinsi->provinsi;
+            } else {
+                $provinsi = Provinsi::where('id', $user->Provinsi)->first();
+                $title = ' Seluruh Provinsi';
+            }
+
+        } else if ($jabatan == 'Ketua atau Anggota Bawaslu Kabupaten/Kota') {
+            $userProv = 'non pusat';
+            $KabKota = Kabupaten::where('id', $user->KabKota)->first();
+            $title = ' Kecamatan di Seluruh ' . $KabKota->kabupaten;
+        } else if ($jabatan == 'Bawaslu Kecamatan') {
+            $kecamatan = Kecamatan::where('id', $user->Kecamatan)->first();
+            $title = ' Kelurahan di Seluruh Kecamatan ' . $kecamatan->kecamatan;
+        } else {
+            $categories = [];
+
+            $categories_RI = [];
+            $count_RI = [];
+
+            $categories_jenis = [];
+            $count_jenis = [];
+
+            $identifikasi_kerawananCount = [];
+            $identifikasi_kerawananSum = [];
+
+            $pendidikanCount = [];
+            $pendidikanSum = [];
+
+            $partisipasiCount = [];
+            $partisipasiSum = [];
+
+            $kerjasamaCount = [];
+            $kerjasamaSum = [];
+
+            $imbauanCount = [];
+            $imbauanSum = [];
+
+            $kegiatanlainCount = [];
+            $kegiatanlainSum = [];
+
+            $publikasiCount = [];
+            $publikasiSum = [];
+
+            $rekapCegah = [];
+			
+			$naskahdinasCount = [];
+			$naskahdinasSum = [];
+        }
+
+        return view('beranda.statistik', compact(
+            'date_start',
+            'date_finish',
+            'dropdowns',
+            'jabatan',
+            'title',
+            'userProv',
+            //'dataTahap',
+            //'dataBentuk'
+
+            //'identifikasi_kerawananCount',
+        ));
+
+    }
     public function statistikPemilihan($id,Request $request)
     {
         $twp_title = Twp::where('id', Crypt::decryptString($id))->first();

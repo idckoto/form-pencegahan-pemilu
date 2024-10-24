@@ -3803,7 +3803,10 @@ class GraphController extends Controller
                 $qFormCegah = $qFormCegah->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
             } 
 
-            $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+            if ($request->wp_id !== "") {
+                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+            }
+            
             
 
             $qFormCegah = $qFormCegah->count(); 
@@ -3835,14 +3838,16 @@ class GraphController extends Controller
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
 
-                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
-            
+                if ($request->wp_id !== "") {
+                    $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                }
+
                 $qFormCegah = $qFormCegah->count(); 
 
         } else if ($jabatan == 'Ketua atau Anggota Bawaslu Kabupaten/Kota') {
             $userProv = 'non pusat';
             $KabKota = Kabupaten::where('id', $user->KabKota)->first();
-            $title = ' Kecamatan di Seluruh ' . $KabKota->kabupaten;
+            $title = 'Kecamatan di Seluruh ' . $KabKota->kabupaten;
             $qFormCegah = Formcegah::where('bentuk', $request->bentuk)
                 ->where('formcegahs.id_kabupaten', $user->KabKota)
                 ->where('formcegahs.id_kecamatan','<>', '')
@@ -3860,9 +3865,13 @@ class GraphController extends Controller
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
 
-                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                if ($request->wp_id !== "") {
+                    $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                }
             
                 $qFormCegah = $qFormCegah->count(); 
+
+                dd($qFormCegah);
 
         } else if ($jabatan == 'Bawaslu Kecamatan') {
             $qFormCegah = Formcegah::where('bentuk', $request->bentuk)
@@ -3880,8 +3889,10 @@ class GraphController extends Controller
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
 
-                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
-            
+                if ($request->wp_id !== "") {
+                    $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                }
+
                 $qFormCegah = $qFormCegah->count();                 
         }
 
@@ -3936,8 +3947,10 @@ class GraphController extends Controller
                 $qFormCegah = $qFormCegah->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
             } 
 
-            $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
-
+            if ($request->wp_id !== "") {
+                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+            }
+            
             $qFormCegah = $qFormCegah->count(); 
 
         } else if ($jabatan == 'Ketua atau Anggota Bawaslu Provinsi') {
@@ -3990,8 +4003,10 @@ class GraphController extends Controller
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
             
-                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
-
+                if ($request->wp_id !== "") {
+                    $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                }
+                
                 $qFormCegah = $qFormCegah->count(); 
 
         } else if ($jabatan == 'Bawaslu Kecamatan') {
@@ -4010,7 +4025,9 @@ class GraphController extends Controller
                     $qFormCegah = $qFormCegah->where('jenis', $request->jenis);
                 }
             
-                $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                if ($request->wp_id !== "") {
+                    $qFormCegah = $qFormCegah->where('formcegahs.wp_id', $request->wp_id);
+                }
 
                 $qFormCegah = $qFormCegah->count();                 
         }
@@ -4071,7 +4088,9 @@ class GraphController extends Controller
             $qtahapan_pie = $qtahapan_pie->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
         }
 
-        $qtahapan_pie = $qtahapan_pie->where('formcegahs.wp_id', $request->wp_id);
+        if ($request->wp_id !== "") {
+            $qtahapan_pie = $qtahapan_pie->where('formcegahs.wp_id', $request->wp_id);
+        }
 
         $tahapan_pie = $qtahapan_pie->groupBy('tahap')->get();
 
@@ -4142,7 +4161,11 @@ class GraphController extends Controller
             $qbentuk_pie = $qbentuk_pie->where('formcegahs.id_kabupaten', $request->wilayah_dropdown);
         }
 
-        $qbentuk_pie = $qbentuk_pie->where('formcegahs.wp_id', $request->wp_id);
+        if ($request->wp_id !== "") {
+            $qbentuk_pie = $qbentuk_pie->where('formcegahs.wp_id', $request->wp_id);
+        }
+
+        
 
         $bentuk_pie = $qbentuk_pie->groupBy('bentuks.bentuk')->get();
 
@@ -4176,19 +4199,27 @@ class GraphController extends Controller
 
         $q_categories_RI = Formcegah::select('bentuks.bentuk as bentuk')
             ->join('bentuks', 'formcegahs.bentuk', 'bentuks.id')
-            ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
+            ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish]);
             //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
             //->where('formcegahs.id_provinsi', '')
-            ->where('formcegahs.wp_id', $request->wp_id);
+            //->where('formcegahs.wp_id', $request->wp_id);
 
+        if ($request->wp_id !== "") {
+            $q_categories_RI = $q_categories_RI->where('formcegahs.wp_id', $request->wp_id);
+        }
+
+            
         $categories_RI = $q_categories_RI->groupBy('bentuks.bentuk')->get()->pluck('bentuk');
         
         $q_RI = Formcegah::select('bentuks.bentuk',DB::raw('COUNT(*) as count'))
         ->join('bentuks', 'formcegahs.bentuk', 'bentuks.id')
-        ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
+        ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish]);
         //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
         //->where('formcegahs.id_provinsi', '')
-        ->where('formcegahs.wp_id', $request->wp_id);
+        //->where('formcegahs.wp_id', $request->wp_id);
+        if ($request->wp_id !== "") {
+            $q_RI = $q_RI->where('formcegahs.wp_id', $request->wp_id);
+        }
 
         $count_RI = $q_RI->groupBy('bentuks.bentuk')->get()->pluck('count');
 
@@ -4219,8 +4250,12 @@ class GraphController extends Controller
             ->leftJoin('jenis', 'formcegahs.jenis', 'jenis.id')
             ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
             //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
-            ->where('formcegahs.jenis','<>', '')
-            ->where('formcegahs.wp_id', $request->wp_id);
+            ->where('formcegahs.jenis','<>', '');
+            //->where('formcegahs.wp_id', $request->wp_id);
+        if ($request->wp_id !== "") {
+            $q_categories_jenis = $q_categories_jenis->where('formcegahs.wp_id', $request->wp_id);
+        }
+            
 
         $categories_jenis = $q_categories_jenis->groupBy('jenis.jenis')->get()->pluck('jenis');
 
@@ -4228,9 +4263,11 @@ class GraphController extends Controller
             ->leftJoin('jenis', 'formcegahs.jenis', 'jenis.id')
             ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
             //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
-            ->where('formcegahs.jenis','<>', '')
-            ->where('formcegahs.wp_id', $request->wp_id);
-
+            ->where('formcegahs.jenis','<>', '');
+            //->where('formcegahs.wp_id', $request->wp_id);
+        if ($request->wp_id !== "") {
+            $q_jenis = $q_jenis->where('formcegahs.wp_id', $request->wp_id);
+        }
         $count_jenis = $q_jenis->groupBy('jenis.jenis')->get()->pluck('count');
 
         $response = [$categories_jenis,$count_jenis];
