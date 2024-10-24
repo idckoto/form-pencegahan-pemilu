@@ -4062,10 +4062,21 @@ class GraphController extends Controller
             ELSE 0
             END) AS count
             ')
-        )
-            ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
-            ->where('formcegahs.id_provinsi', '<>', '');
-
+        )->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish]);
+        
+            if ($jabatan == 'Sekretariat Bawaslu Provinsi') {
+                $qtahapan_pie = $qtahapan_pie->where('formcegahs.id_provinsi', '<>', '');
+            }
+            else if ($jabatan == 'Ketua atau Anggota Bawaslu Provinsi'){
+                $qtahapan_pie = $qtahapan_pie->where('formcegahs.id_provinsi', $user->Provinsi);
+            }
+            else if ($jabatan == 'Ketua atau Anggota Bawaslu Kabupaten/Kota'){
+                $qtahapan_pie = $qtahapan_pie->where('formcegahs.id_kabupaten', $user->KabKota);
+            }
+            else if ($jabatan == 'Bawaslu Kecamatan'){
+                $qtahapan_pie = $qtahapan_pie->where('formcegahs.id_kecamatan', $user->Kecamatan);
+            }
+            
             // dd( $qtahapan_pie);
 
         if ($request->divisi != "") {
@@ -4110,7 +4121,7 @@ class GraphController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         $jabatan = $user->Jabatan;
 
-        if ($request->date_finish == "") {
+        /*if ($request->date_finish == "") {
             $now = Carbon::now();
             //$date_start = $now->firstOfMonth()->format('Y-m-d');
             //$date_finish = $now->endOfMonth()->format('Y-m-d');
@@ -4120,7 +4131,7 @@ class GraphController extends Controller
         } else {
             $date_start = $request->date_start;
             $date_finish = $request->date_finish;
-        }
+        }*/
 
         $qbentuk_pie = Formcegah::select(
             'bentuks.bentuk as bentuk',
@@ -4136,11 +4147,28 @@ class GraphController extends Controller
             ELSE 0
             END) AS count
             ')
-        )
-            ->join('bentuks', 'formcegahs.bentuk', 'bentuks.id')
-            ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish])
-            ->where('formcegahs.id_provinsi', '<>', '');
+        )->leftJoin('bentuks', 'formcegahs.bentuk', 'bentuks.id');
+        //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish]);
+        //->where('formcegahs.id_provinsi', '<>', '');
 
+        if ($request->date_start !== "" && $request->date_finish !== "") {
+            $qbentuk_pie = $qbentuk_pie->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$request->date_start, $request->date_finish]);
+        }
+
+        
+        if ($jabatan == 'Sekretariat Bawaslu Provinsi') {
+            $qbentuk_pie = $qbentuk_pie->where('formcegahs.id_provinsi', '<>', '');
+        }
+        else if ($jabatan == 'Ketua atau Anggota Bawaslu Provinsi'){
+            $qbentuk_pie = $qbentuk_pie->where('formcegahs.id_provinsi', $user->Provinsi);
+        }
+        else if ($jabatan == 'Ketua atau Anggota Bawaslu Kabupaten/Kota'){
+            $qbentuk_pie = $qbentuk_pie->where('formcegahs.id_kabupaten', $user->KabKota);
+        }
+        else if ($jabatan == 'Bawaslu Kecamatan'){
+            $qbentuk_pie = $qbentuk_pie->where('formcegahs.id_kecamatan', $user->Kecamatan);
+        }
+        
         if ($request->divisi != "") {
             $qbentuk_pie = $qbentuk_pie->where('id_divisi', $request->divisi);
         }
@@ -4196,14 +4224,19 @@ class GraphController extends Controller
             $date_start = $request->date_start;
             $date_finish = $request->date_finish;
         }
+        
 
         $q_categories_RI = Formcegah::select('bentuks.bentuk as bentuk')
-            ->join('bentuks', 'formcegahs.bentuk', 'bentuks.id')
-            ->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish]);
+            ->join('bentuks', 'formcegahs.bentuk', 'bentuks.id');
+            //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$date_start, $date_finish]);
             //->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), ['2023-01-01','2023-12-01'])
             //->where('formcegahs.id_provinsi', '')
             //->where('formcegahs.wp_id', $request->wp_id);
-
+        
+        if ($request->date_start !== "" && $request->date_finish !== "") {
+            $q_categories_RI = $q_categories_RI->whereBetween(DB::raw("(STR_TO_DATE(formcegahs.created_at,'%Y-%m-%d'))"), [$request->date_start, $request->date_finish]);
+        }
+        
         if ($request->wp_id != "") {
             $q_categories_RI = $q_categories_RI->where('formcegahs.wp_id', $request->wp_id);
         }
