@@ -97,7 +97,7 @@ class SigninSessionController extends Controller
 
         $send = Mail::to($request->email)->send(new ResetPasswordMail($token));
 
-        dd([$request->email,$token,$send]);
+        //dd([$request->email,$token,$send]);
 
         //return redirect()->route('forgot-password')->with('success', 'Kami telah mengirimkan link reset password ke email anda');
         return redirect('/forgot-password')->with('status', 'Kami telah mengirimkan link reset password ke email anda');
