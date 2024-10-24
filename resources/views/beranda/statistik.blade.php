@@ -16,7 +16,7 @@
           </div><!-- /.col -->
           <div class="col-md-2">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/statistik" class="btn btn-sm btn-info">ke Statistik</a></li>
+              <li class="breadcrumb-item"><a href="/welcome" class="btn btn-sm btn-info">Kembali ke Beranda</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
