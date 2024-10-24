@@ -378,8 +378,8 @@
 <script>
 $(document).ready(function () {
 
-    var date_start = document.getElementById("date_start").value;
-    var date_finish = document.getElementById("date_finish").value;
+    var dateStart = document.getElementById("date_start").value;
+    var dateFinish = document.getElementById("date_finish").value;
 
     var frm_date_start  = $('#frm_date_start').val();
     var frm_date_finish = $('#frm_date_finish').val();
@@ -452,24 +452,22 @@ $(document).ready(function () {
         //alert('anda tekan tampilkan');
         var frm_date_start  = $('#frm_date_start').val();
         var frm_date_finish = $('#frm_date_finish').val();
+        var date_start      = $('#date_start').val();
+        var date_finish     = $('#date_finish').val();
         var divisi          = $('#divisi').val();
         var bentuk          = $('#bentuk').val();
         var jenis           = $('#jenis').val();
         var pilih_wilayah   = $('#pilih_wilayah').val();
         var wilayah_dropdown= $('#wilayah_dropdown').val();
         var wp_id           = $('#wp_id').val();
-        
-        var form_data = {
-            date_start: frm_date_start,
-            date_finish: frm_date_finish,
-            divisi: divisi,
-            bentuk: bentuk,
-            jenis: jenis,
-            pilih_wilayah: pilih_wilayah,
-            wilayah_dropdown: wilayah_dropdown,
-            wp_id: wp_id,
-            _token: '{{csrf_token()}}'
-        };
+
+        if(frm_date_start=="" && frm_date_finish=="") {
+            var dateStart  = date_start;
+            var dateFinish = date_finish;
+        } else {
+            var dateStart  = frm_date_start;
+            var dateFinish = frm_date_finish;
+        }
 
         $("#kegiatanlainSum").show().html('.');
         $("#pendidikanSum").show().html('');
@@ -487,37 +485,11 @@ $(document).ready(function () {
         callFilterSums(4);
         callFilterSums(5);
         callFilterSums(6);
-        /*$.ajax({
-            url: "{{url('recap/filter-all-sums')}}",
-            type: "POST",
-            data: form_data,
-            dataType: 'json',
-            success: function (msg) {
-                //console.log(bentuk);
-                if(bentuk==0){
-                    $("#kegiatanlainSum").show().html(msg);
-                } else if(bentuk==1) {
-                    $("#pendidikanSum").show().html(msg);
-                    $("#pendidikanSum").show().html(msg);
-                } else if(bentuk==2) {
-                    $("#partisipasiSum").show().html(msg);
-                } else if(bentuk==3) {
-                    $("#kerjasamaSum").show().html(msg);
-                } else if(bentuk==4) {
-                    $("#naskahdinasSum").show().html(msg);
-                } else if(bentuk==5) {
-                    $("#publikasiSum").show().html(msg);
-                } else {
-                    $("#identifikasi_kerawananSum").show().html(msg);
-                }                
-                $(".grafik_periode").show().html('GRAFIK PERIODE <b>'+frm_date_start+'</b> SAMPAI <b>'+frm_date_finish+'</b>');
-            }
-        });*/
         
-        loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
-        loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
-        loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
-        loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
+        loadContainer1(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id);
+        loadContainer2(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id);
+        loadContainerRI(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id);
+        loadContainerJenis(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id);
     });
     
     /*--------------------------------------------
@@ -533,12 +505,25 @@ $(document).ready(function () {
     function callSums(bentuk){   
              
         $(".overlay").show(); 
+        var date_start  = $('#date_start').val();
+        var date_finish = $('#date_finish').val();
+        var divisi          = $('#divisi').val();
+        var jenis           = $('#jenis').val();
+        var pilih_wilayah   = $('#pilih_wilayah').val();
+        var wilayah_dropdown= $('#wilayah_dropdown').val();
+        var wp_id           = $('#wp_id').val();
         
         var form_data = {
+            date_start: date_start,
+            date_finish: date_finish,
+            divisi: divisi,
             bentuk: bentuk,
+            jenis: jenis,
+            pilih_wilayah: pilih_wilayah,
+            wilayah_dropdown: wilayah_dropdown,
             wp_id: wp_id,
             _token: '{{csrf_token()}}'
-        };
+        };        
 
         $.ajax({
             url: "{{url('recap/all-sums')}}",
@@ -574,17 +559,26 @@ $(document).ready(function () {
     {
         var frm_date_start  = $('#frm_date_start').val();
         var frm_date_finish = $('#frm_date_finish').val();
+        var date_start  = $('#date_start').val();
+        var date_finish = $('#date_finish').val();
         var divisi          = $('#divisi').val();
-        //var bentuk          = $('#bentuk').val();
         var jenis           = $('#jenis').val();
         var pilih_wilayah   = $('#pilih_wilayah').val();
         var wilayah_dropdown= $('#wilayah_dropdown').val();
         var wp_id           = $('#wp_id').val();
 
+        if(frm_date_start=="" && frm_date_finish=="") {
+            var dateStart  = date_start;
+            var dateFinish = date_finish;
+        } else {
+            var dateStart  = frm_date_start;
+            var dateFinish = frm_date_finish;
+        }
+
         //var bentuk = id;
         var form_data = {
-            date_start: frm_date_start,
-            date_finish: frm_date_finish,
+            date_start: dateStart,
+            date_finish: dateFinish,
             divisi: divisi,
             bentuk: bentuk,
             jenis: jenis,
@@ -624,12 +618,12 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container 1
     ----------------------------------------------*/
-    setTimeout(loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
-    function loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
+    setTimeout(loadContainer1(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id), 1000);
+    function loadContainer1(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id)
     {
         var form_data = {
-            date_start: date_start,
-            date_finish: date_finish,
+            date_start: dateStart,
+            date_finish: dateFinish,
             divisi: divisi,
             bentuk: bentuk,
             jenis: jenis,
@@ -705,12 +699,12 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container 2
     ----------------------------------------------*/
-    setTimeout(loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
-    function loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
+    setTimeout(loadContainer2(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id), 1000);
+    function loadContainer2(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id)
     {
         var form_data = {
-            date_start: date_start,
-            date_finish: date_finish,
+            date_start: dateStart,
+            date_finish: dateFinish,
             divisi: divisi,
             bentuk: bentuk,
             jenis: jenis,
@@ -786,12 +780,12 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container RI by Bentuk
     ----------------------------------------------*/
-    setTimeout(loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
-    function loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
+    setTimeout(loadContainerRI(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id), 1000);
+    function loadContainerRI(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id)
     {
         var form_data = {
-            date_start: date_start,
-            date_finish: date_finish,
+            date_start: dateStart,
+            date_finish: dateFinish,
             divisi: divisi,
             bentuk: bentuk,
             jenis: jenis,
@@ -862,12 +856,12 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container Jenis Prov
     ----------------------------------------------*/
-    setTimeout(loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
-    function loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
+    setTimeout(loadContainerJenis(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id), 1000);
+    function loadContainerJenis(dateStart,dateFinish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,wp_id)
     {
         var form_data = {
-            date_start: date_start,
-            date_finish: date_finish,
+            date_start: dateStart,
+            date_finish: dateFinish,
             divisi: divisi,
             bentuk: bentuk,
             jenis: jenis,

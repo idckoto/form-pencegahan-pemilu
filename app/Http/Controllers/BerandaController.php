@@ -134,9 +134,10 @@ class BerandaController extends Controller
         $jabatan = $user->Jabatan;  
         $now = Carbon::now();
         //$date_start = $now->firstOfMonth()->format('Y-m-d');
+        
+        $date_start = '2023-10-01';
         $date_finish = $now->endOfMonth()->format('Y-m-d');
-        $date_start = '2024-01-01';
-
+        
         //   dd($user,$jabatan,$date_start,$date_finish);
         if ($jabatan == 'Sekretariat Bawaslu Provinsi') {
             //dd('hai sekretariat');
