@@ -38,6 +38,8 @@
                             <div class="col-12">
                                 <select name="pilih_event" class="form-control" id="wp_id">
                                     <option value="" selected> Pilih Event </option>
+                                    <option value="1"> Pemilu Tahun 2024 </option>
+                                    <option value="547"> Pemilihan Tahun 2024 </option>
                                 </select>
                             </div>
                           </div>
@@ -512,10 +514,10 @@ $(document).ready(function () {
             }
         });*/
         
-        loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish);
-        loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish);
-
-
+        loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
+        loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
+        loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
+        loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id);
     });
     
     /*--------------------------------------------
@@ -622,8 +624,8 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container 1
     ----------------------------------------------*/
-    setTimeout(loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish), 1000);
-    function loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish)
+    setTimeout(loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
+    function loadContainer1(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
     {
         var form_data = {
             date_start: date_start,
@@ -703,8 +705,8 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container 2
     ----------------------------------------------*/
-    setTimeout(loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish), 1000);
-    function loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish)
+    setTimeout(loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
+    function loadContainer2(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
     {
         var form_data = {
             date_start: date_start,
@@ -775,11 +777,17 @@ $(document).ready(function () {
     }
     /** Close Call Container2 */     
 
+
+
+
+
+
+
     /*--------------------------------------------
     Call Container RI by Bentuk
     ----------------------------------------------*/
-    setTimeout(loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish), 1000);
-    function loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish)
+    setTimeout(loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
+    function loadContainerRI(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
     {
         var form_data = {
             date_start: date_start,
@@ -854,8 +862,8 @@ $(document).ready(function () {
     /*--------------------------------------------
     Call Container Jenis Prov
     ----------------------------------------------*/
-    setTimeout(loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish), 1000);
-    function loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish)
+    setTimeout(loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id), 1000);
+    function loadContainerJenis(frm_date_start,frm_date_finish,divisi,bentuk,jenis,pilih_wilayah,wilayah_dropdown,date_start,date_finish,wp_id)
     {
         var form_data = {
             date_start: date_start,
