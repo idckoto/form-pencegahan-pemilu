@@ -73,7 +73,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
-            <strong><a href="/">BAWASLU</a> &copy; 2022 </strong>
+            <strong><a href="/">BAWASLU</a> &copy; <?=date('Y')?> </strong>
             </div>
             <span class="badge badge-secondary badge-md">USER</span> : <span class="badge badge-info badge-md">{{ strtoupper(Auth::user()->name) }}</span> | <span class="badge badge-warning badge-md">{{ strtoupper(Auth::user()->Jabatan) }} </span>  | <span class="badge badge-secondary badge-md">{{ strtolower(Auth::user()->email) }} </span>
         </footer>
