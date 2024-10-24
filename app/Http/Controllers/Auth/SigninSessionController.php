@@ -93,7 +93,7 @@ class SigninSessionController extends Controller
             ]
         );
 
-        dd($mailToken);
+        dd([$request->email,$token]);
 
         Mail::to($request->email)
             ->send(new ResetPasswordMail($token));
