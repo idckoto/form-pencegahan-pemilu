@@ -116,13 +116,13 @@ class SigninSessionController extends Controller
         $token = PasswordResetToken::where('token', $request->token)->first();
 
         if (!$token) {
-            return redirect()->route('login')->with('failed', 'Token tidak valid');
+            return redirect('/signin')->with('danger', 'Token tidak valid');
         }
 
         $user = User::where('email', $token->email)->first();
 
         if (!$user) {
-            return redirect()->route('login')->with('failed', 'Email tidak terdaftar di database');
+            return redirect('/signin')->with('warning', 'Email tidak terdaftar di database');
         }
 
         $user->update([
@@ -131,7 +131,8 @@ class SigninSessionController extends Controller
 
         $token->delete();
 
-        return redirect()->route('login')->with('success', 'Password berhasil direset');
+        //return redirect()->route('login')->with('success', 'Password berhasil direset');
+        return redirect('/signin')->with('success', 'Password berhasil direset');
     }
 
     public function validasi_forgot_password(Request $request, $token)
@@ -139,7 +140,7 @@ class SigninSessionController extends Controller
         $getToken = PasswordResetToken::where('token', $token)->first();
 
         if (!$getToken) {
-            return redirect()->route('login')->with('failed', 'Token tidak valid');
+            return redirect('/signin')->with('danger', 'Token tidak valid');
         }
 
         return view('auth.validasi-token', compact('token'));

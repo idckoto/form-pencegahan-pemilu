@@ -8,7 +8,7 @@
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
         <img src="{{ Storage::url('public/logo-login.png') }}" width="200px">
-        <h4>Forgot Password</h4>
+        <h4>Masukan Password Baru</h4>
     </div>
     <div class="card-body">
                 <form action="{{ route('validasi-forgot-password-act') }}" method="post">

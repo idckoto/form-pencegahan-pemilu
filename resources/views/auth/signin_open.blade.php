@@ -87,9 +87,10 @@
       <div class="row text-center mt-2 mb-3">
         <div class="col-12">
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#forgotPassModal">
+      <a href="{{ url('/forgot-password') }}" class="btn btn-block btn-md btn-warning">Forgot Password</a>
+			<!-- <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#forgotPassModal">
 			  Forgot Password
-			</button>
+			</button> -->
 
 			<!-- Modal -->
 			<div class="modal fade" id="forgotPassModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -101,7 +102,7 @@
 					  <span aria-hidden="true">&times;</span>
 					</button>
 				  </div>
-          <form action="{{ url('/forgot/submit') }}" enctype="multipart/form-data" method="POST">
+          <form action="{{ url('/forgot-password-act') }}" enctype="multipart/form-data" method="POST">
           @csrf
           <div class="modal-body">
 					<div class="input-group mb-3">
