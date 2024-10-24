@@ -82,7 +82,7 @@ class SigninSessionController extends Controller
 
         $token = \Str::random(60);
 
-        $mailToken = PasswordResetToken::updateOrCreate(
+        PasswordResetToken::updateOrCreate(
             [
                 'email' => $request->email
             ],
@@ -93,10 +93,11 @@ class SigninSessionController extends Controller
             ]
         );
 
-        dd([$request->email,$token]);
+        
 
-        Mail::to($request->email)
-            ->send(new ResetPasswordMail($token));
+        $send = Mail::to($request->email)->send(new ResetPasswordMail($token));
+
+        dd([$request->email,$token,$send]);
 
         //return redirect()->route('forgot-password')->with('success', 'Kami telah mengirimkan link reset password ke email anda');
         return redirect('/forgot-password')->with('status', 'Kami telah mengirimkan link reset password ke email anda');
