@@ -16,6 +16,7 @@ use App\Http\Controllers\UseaksesController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\UtamaController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\Auth\SigninSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,12 @@ Route::get('/', function () {
 });
 
 Route::get('/reload-captcha', [App\Http\Controllers\Auth\SigninSessionController::class, 'reloadCaptcha']);
+
+Route::get('/forgot-password', [SigninSessionController::class, 'forgot_password'])->name('forgot-password');
+Route::post('/forgot-password-act', [SigninSessionController::class, 'forgot_password_act'])->name('forgot-password-act');
+
+Route::get('/validasi-forgot-password/{token}', [SigninSessionController::class, 'validasi_forgot_password'])->name('validasi-forgot-password');
+Route::post('/validasi-forgot-password-act', [SigninSessionController::class, 'validasi_forgot_password_act'])->name('validasi-forgot-password-act');
 
 
 Route::controller(ChangePasswordController::class)->group(function () {

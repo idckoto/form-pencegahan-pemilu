@@ -49,7 +49,7 @@ class BerandaController extends Controller
         $id_kabkota = $user->Kabkota;
         $id_provinsi = $user->Provinsi;
 
-        if(Auth::user()->Jabatan=="Bawaslu Kecamatan") {
+        /*if(Auth::user()->Jabatan=="Bawaslu Kecamatan") {
             $twp = Twp::where('kabkot', '=', Auth::user()->Provinsi.'00')
                     ->orWhere('kabkot', '=' , $user->KabKota)
                     ->get();
@@ -63,7 +63,14 @@ class BerandaController extends Controller
                     ->get();            
         } else if(Auth::user()->Jabatan=="Sekretariat Bawaslu Provinsi") {
             $twp = Twp::all();
+        }*/
+        if(Auth::user()->Jabatan=="Sekretariat Bawaslu Provinsi") {
+            $twp = Twp::all();
+        } else {
+            $twp = Twp::whereIn('id',[1,547])->get();
         }
+
+
 
         if(isset(Auth::user()->Kecamatan)){
             $provinsi = Provinsi::where('id', Auth::user()->Provinsi)->first();

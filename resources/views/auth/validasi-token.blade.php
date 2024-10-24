@@ -11,17 +11,19 @@
         <h4>Forgot Password</h4>
     </div>
     <div class="card-body">
-        <form action="{{ route('forgot-password-act') }}" method="post">
-            @csrf
-            <div class="input-group mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Email">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-envelope"></span>
+                <form action="{{ route('validasi-forgot-password-act') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" class="form-control"
+                            placeholder="Masukkan Password Baru">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            @error('email')
+            @error('password')
                 <small class="text-danger align-center">{{ $message }}</small>
             @enderror
             <div class="row">

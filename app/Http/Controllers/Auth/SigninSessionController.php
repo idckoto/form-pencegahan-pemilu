@@ -82,7 +82,6 @@ class SigninSessionController extends Controller
 
         $token = \Str::random(60);
 
-        PasswordResetToken::class;
         PasswordResetToken::updateOrCreate(
             [
                 'email' => $request->email
@@ -93,6 +92,8 @@ class SigninSessionController extends Controller
                 'created_at' => now(),
             ]
         );
+
+        
 
         Mail::to($request->email)->send(new ResetPasswordMail($token));
 

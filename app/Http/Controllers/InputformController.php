@@ -112,7 +112,7 @@ foreach ($formcegahs as $formcegah) {
 
         //dd($id_provinsi);
 
-        if(Auth::user()->Jabatan=="Bawaslu Kecamatan") {
+        /*if(Auth::user()->Jabatan=="Bawaslu Kecamatan") {
             $twp = Twp::where('kabkot', '=', $user->KabKota)
                     ->orWhere('kabkot', '=' , Auth::user()->Provinsi.'00')
                     ->orWhere('kp_id', '=' , 1)
@@ -134,6 +134,11 @@ foreach ($formcegahs as $formcegah) {
                         ->get();            
         } else if(Auth::user()->Jabatan=="Sekretariat Bawaslu Provinsi") {
             $twp = Twp::get();  
+        }*/
+        if(Auth::user()->Jabatan=="Sekretariat Bawaslu Provinsi") {
+            $twp = Twp::all();
+        } else {
+            $twp = Twp::whereIn('id',[1,547])->get();
         }
 
         // dd($petugas);
