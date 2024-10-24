@@ -95,9 +95,11 @@ class SigninSessionController extends Controller
 
         
 
-        Mail::to($request->email)->send(new ResetPasswordMail($token));
+        Mail::to($request->email)
+            ->send(new ResetPasswordMail($token));
 
-        return redirect()->route('forgot-password')->with('success', 'Kami telah mengirimkan link reset password ke email anda');
+        //return redirect()->route('forgot-password')->with('success', 'Kami telah mengirimkan link reset password ke email anda');
+        return redirect('/forgot-password')->with('status', 'Kami telah mengirimkan link reset password ke email anda');
     }
 
     public function validasi_forgot_password_act(Request $request)

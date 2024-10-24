@@ -33,7 +33,7 @@ class ResetPasswordMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Reset Password eMail',
+            subject: 'Reset Password',
         );
     }
 
@@ -50,6 +50,11 @@ class ResetPasswordMail extends Mailable
                 'token' => $this->token
             ]
         );
+    }
+    public function build()
+    {
+        return $this->from('apps@bawaslu.go.id', 'Form Pencegahan') // Mengatur nama pengirim
+                    ->subject('Reset Password'); // Mengatur subject email (bisa juga di sini)
     }
 
     /**
